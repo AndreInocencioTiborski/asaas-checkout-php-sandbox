@@ -84,13 +84,13 @@ unset($_SESSION['erro']);
 
             <div id="cartao" hidden>
                 <label for="card_number">Número do cartão</label>
-                <input id="card_number" name="card_number" inputmode="numeric" autocomplete="cc-number">
+                <input id="card_number" name="card_number" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="0000 0000 0000 0000">
 
                 <label for="card_holder">Nome no cartão</label>
                 <input id="card_holder" name="card_holder" autocomplete="cc-name">
 
                 <label for="card_expiry">Validade</label>
-                <input id="card_expiry" name="card_expiry" placeholder="12/30" autocomplete="cc-exp">
+                <input id="card_expiry" name="card_expiry" maxlength="5" placeholder="12/30" autocomplete="cc-exp">
 
                 <label for="card_cvv">CVV</label>
                 <input id="card_cvv" name="card_cvv" inputmode="numeric" autocomplete="cc-csc">
@@ -113,6 +113,23 @@ unset($_SESSION['erro']);
                     cartao.hidden = document.querySelector('input[name="method"]:checked').value !== 'CREDIT_CARD';
                 })
             );
+
+            const numeroCartao = document.getElementById('card_number');
+            const validadeCartao = document.getElementById('card_expiry');
+
+            numeroCartao.addEventListener('input', () => {
+                const numeros = numeroCartao.value.replace(/\D/g, '').slice(0,16);
+
+                numeroCartao.value = numeros.match(/.{1,4}/g)?.join(' ') ?? '';
+            });
+
+            validadeCartao.addEventListener('input', () => {
+                const numeros = validadeCartao.value.replace(/\D/g, '').slice(0, 4);
+
+                validadeCartao.value = numeros.length > 2
+                    ? `${numeros.slice(0, 2)}/${numeros.slice(2)}`
+                    : numeros;
+            })
         </script>
     </body>
 </html>
