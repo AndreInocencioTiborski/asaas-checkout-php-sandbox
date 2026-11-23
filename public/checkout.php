@@ -44,7 +44,6 @@ try {
 
     if ($metodo === 'CREDIT_CARD') {
 
-        error_log('CVV recebido: [' . ($_POST['card_cvv'] ?? 'CAMPO AUSENTE') . ']');
         if (!preg_match('#^(\d{2})/(\d{2})$#', trim($_POST['card_expiry'] ?? ''), $m)) {
             voltar('Validade inválida. Use MM/AA.');
         }
